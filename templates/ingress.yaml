@@ -16,19 +16,19 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: {{ $fullName }}
-  namespace: {{ .Values.keda.namespace }}
+  namespace: {{ .Values.namespace }}
   labels:
     app: {{ .Values.name }}
     {{- include "helm-chart.labels" . | nindent 4 }}
   {{- with .Values.ingress.annotations }}
   annotations:
+    kubernetes.io/spec.ingressClassName: "nginx"
+    nginx.ingress.kubernetes.io/backend-protocol: "TCP"
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
   {{- if and .Values.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
   ingressClassName: {{ .Values.ingress.className }}
-  {{- end }}
-  {{- if .Values.ingress.defaultBackend.enabled }}
   {{- end }}
   {{- if .Values.ingress.ingressClassName }}
   {{- end }}
@@ -53,12 +53,12 @@ spec:
             backend:
               {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
               service:
-                name: keda-add-ons-http-interceptor-proxy
+                name: {{ $.Values.name }}
                 port:
-                  number: 8080
+                  number: {{ $svcPort }}
               {{- else }}
-              serviceName: keda-add-ons-http-interceptor-proxy
-              servicePort: 8080
+              serviceName: {{ $.Values.name }}
+              servicePort: {{ $.Values.service.port }}
               {{- end }}
           {{- end }}
     {{- end }}
