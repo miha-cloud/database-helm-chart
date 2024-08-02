@@ -6,17 +6,17 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
 configMap:
   data:
-    5432: ef855cef-1a01-4c30-9ba5-2ddef0b1e17b/miha-1722568608:5432
+    5432: ef855cef-1a01-4c30-9ba5-2ddef0b1e17b/miha-1722607918:5432
   name: nginx-ingress-tcp-microk8s-conf
   namespace: ingress
 env:
   POSTGRES_PASSWORD: password
   POSTGRES_USER: postgres
 fullnameOverride: ''
-host: 1722568608.miha-clound.com
+host: 1722607918.miha-clound.com
 image:
-  repository: postgres
-  tag: 16.3
+  repository: mihacloud/1722607918
+  tag: latest
 imagePullSecrets: []
 ingress:
   annotations:
@@ -24,7 +24,7 @@ ingress:
   className: nginx
   enabled: true
   hosts:
-  - host: 1722568608.miha-clound.com
+  - host: 1722607918.miha-clound.com
     paths:
     - path: /
       pathType: ImplementationSpecific
@@ -34,7 +34,7 @@ livenessProbe:
   periodSeconds: 10
   tcpSocket:
     port: 5432
-name: miha-1722568608
+name: miha-1722607918
 nameOverride: ''
 namespace: ef855cef-1a01-4c30-9ba5-2ddef0b1e17b
 nodeSelector: {}

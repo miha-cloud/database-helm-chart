@@ -9,7 +9,7 @@ spec:
   entryPoints:
     - postgres
   routes:
-    - match: HostSNI(`1722568608.miha-clound.com`)
+    - match: HostSNI(`{{ .Values.host }}`)
       services:
         - name: {{ .Values.name }}
           port: {{ .Values.service.port }}
