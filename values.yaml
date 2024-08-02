@@ -6,16 +6,16 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
 configMap:
   data:
-    5432: ef855cef-1a01-4c30-9ba5-2ddef0b1e17b/miha-1722607918:5432
+    5432: ef855cef-1a01-4c30-9ba5-2ddef0b1e17b/miha-1722610371:5432
   name: nginx-ingress-tcp-microk8s-conf
   namespace: ingress
 env:
   POSTGRES_PASSWORD: password
   POSTGRES_USER: postgres
 fullnameOverride: ''
-host: 1722607918.miha-clound.com
+host: 1722610371.miha-clound.com
 image:
-  repository: mihacloud/1722607918
+  repository: mihacloud/1722610371
   tag: latest
 imagePullSecrets: []
 ingress:
@@ -24,7 +24,7 @@ ingress:
   className: nginx
   enabled: true
   hosts:
-  - host: 1722607918.miha-clound.com
+  - host: 1722610371.miha-clound.com
     paths:
     - path: /
       pathType: ImplementationSpecific
@@ -34,7 +34,7 @@ livenessProbe:
   periodSeconds: 10
   tcpSocket:
     port: 5432
-name: miha-1722607918
+name: miha-1722610371
 nameOverride: ''
 namespace: ef855cef-1a01-4c30-9ba5-2ddef0b1e17b
 nodeSelector: {}
@@ -49,8 +49,8 @@ readinessProbe:
 replicaCount: 1
 resources:
   limits:
-    cpu: 1
-    memory: 1Gi
+    cpu: 0.5
+    memory: 512Mi
 securityContext: {}
 service:
   annotations: {}
@@ -63,5 +63,10 @@ serviceAccount:
   create: true
   name: ''
 tolerations: []
-volumeMounts: []
-volumes: []
+volumeMounts:
+- mountPath: /var/lib/postgresql/data
+  name: miha-1722610371-data-volume
+volumes:
+- name: miha-1722610371-data-volume
+  persistentVolumeClaim:
+    claimName: miha-1722610371-data-pvc
