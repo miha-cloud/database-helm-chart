@@ -1,0 +1,17 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRouteTCP
+metadata:
+  name: {{ .Values.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.name }}
+spec:
+  entryPoints:
+    - postgres
+  routes:
+    - match: HostSNI(`{{ .Values.host }}`)
+      services:
+        - name: {{ .Values.name }}
+          port: {{ .Values.service.port }}
+      tls:
+        passthrough: true
